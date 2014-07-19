@@ -1,0 +1,48 @@
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <h1>New debt for all brothers</h1>
+<%= form_for(@debt) do |f| %>
+  <% if @debt.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@debt.errors.count, "error") %> prohibited this debt from being saved:</h2>
+
+      <ul>
+      <% @debt.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :amount %><br>
+    <%= f.number_field :amount, :step => 'any' %>
+  </div>
+  <div class="field">
+    <%= f.label :due %><br>
+    <%= f.date_field :due %>
+  </div>
+  <div class="field">
+   <label>Paid?</label><br>
+    <%= f.check_box :status %>
+  </div>
+    <div class="field">
+   <label>Collection</label><br>
+    <%= f.select :collection_id, options_for_select(@collections.map{ |c| [c.name, c.id] }), include_blank: "(No collection)"%>
+  </div>
+  <div class="field">
+    <%= f.label :notes %><br>
+    <%= f.text_area :notes %>
+  </div>
+  <div class="actions">
+    <%= f.submit class: "btn btn-success" %>
+  </div>
+<% end %>
+</div>
+</div>
+<%= link_to 'Back', debts_path, class: "btn btn-danger" %>

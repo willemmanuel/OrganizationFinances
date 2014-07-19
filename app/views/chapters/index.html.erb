@@ -1,0 +1,48 @@
+<h3><%=@semesters.count%> semesters on file</h3>
+<table class='table'>
+  <thead>
+    <tr>
+      <th>Semester</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @semesters.each do |semester| %>
+    <tr>
+      <% if semester == current_user.chapter.get_current_semester %>
+        <td><b><%= semester.name %></b> - Current semester</td>
+      <% else %>
+        <td><%= semester.name %> <small><%= link_to "(make active)", set_current_semester_path(semester) %></small></td>
+      <% end %>
+      <td></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= link_to "New Semester", new_semester_path, class: "btn btn-success" %>
+<h3><%=@users.count%> users registered</h3>
+<table class='table'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Manager?</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= link_to user.brother.name, user.brother %></td>
+        <td><%= user.email %></td>
+        <% if user.chapter_manager? %>
+          <td><%= link_to "Y", make_manager_path(user.brother), :class => "btn btn-success"%></td>
+        <% else %>
+          <td><%= link_to "N", make_manager_path(user.brother), :class => "btn btn-danger"%></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

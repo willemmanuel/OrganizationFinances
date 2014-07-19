@@ -1,0 +1,29 @@
+<h3>
+  <%= @brother.name %>
+</h3>
+<hr>
+Has <%= @overdue.count %> overdue <%='debt'.pluralize(@overdue.count)  %>
+<% if !@overdue.empty? %>
+	for <%= number_to_currency @overdue_total %>
+<% end %>
+<br>
+Has <%= @future.count %> future <%='debt'.pluralize(@future.count)  %>
+<% if !@future.empty? %>
+	for <%= number_to_currency @future_total %>
+<% end %>
+<br>
+Has made <%= @payments.count.to_s %> <%='payment'.pluralize(@payments.count) %>
+<% if !@payments.empty? %>
+	for <%= number_to_currency @payments_total %> <br>
+<% end %>
+<hr>
+<%= pluralize number_with_precision(@brother.demerit, precision: 2), "demerits" %> <br>
+Been to <%= pluralize @present.count, "meeting" %> <br>
+Justified absent from <%= pluralize @justified.count, "meeting" %> <br>
+Excused from <%= pluralize @excused.count, "meeting" %> <br>
+Unexcused from <%= pluralize @unexcused.count, "meeting" %>
+<hr>
+
+Phone: <%= @brother.phone %> <br>
+Email: <%= mail_to(@brother.email) %> <br>
+Year: <%= @brother.year %>

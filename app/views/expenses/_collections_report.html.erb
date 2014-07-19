@@ -1,0 +1,14 @@
+<div class="row">
+<% @collections.each do |collection| %>
+	<div class="col-md-6">
+  <h3> <%= link_to collection.name, collection %> </h3>
+  <div class="progress" stype="min-height: 15px;">
+  	<% collected_percent =  collection.debts.where(status: true).sum(&:amount).to_f / collection.debts.sum(&:amount).to_f * 100 %>
+  	<% out_percent =  collection.debts.where(status: false).sum(&:amount).to_f / collection.debts.sum(&:amount).to_f * 100 %>
+    <div class="progress-bar progress-bar-success" style="width: <%= collected_percent %>%;"> $<%= collection.debts.where(status: true).sum(&:amount) %> collected (<%= collection.debts.where(status: true).count %> payments) </div>
+    <div class="progress-bar progress-bar-danger" style="width: <%= out_percent %>%;"> $<%= collection.debts.where(status: false).sum(&:amount) %> uncollected (<%= collection.debts.where(status: false).count %> debts)</div>
+  </div>
+</div>
+<% end %>
+</div>
+<%= link_to "Add Collection", new_collection_path, :class => "btn btn-success", :method => "get"%>

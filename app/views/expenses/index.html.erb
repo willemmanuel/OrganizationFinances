@@ -1,0 +1,152 @@
+<%= render 'report' %>
+<hr>
+<%= render 'graph' %>
+<br>
+<%= render 'collections_report' %>
+<hr>
+<div class="row">
+<h3>Current Expenses</h3>
+<center>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Committee</th>
+      <th>Amount</th>
+      <th>Purchaser</th>
+      <th>Date</th>
+      <th>Notes</th>
+      <th width="5%">R?</th>
+      <th width="5%">Post</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @current_expenses_paginated.each do |expense| %>
+      <tr>
+        <td><%= link_to expense.item, edit_expense_path(expense)%></td>
+
+        <% if expense.committee.nil? %>
+          <td>Fixed</td>
+        <% else %>
+          <td><%= link_to expense.committee.name, expense.committee %></td>
+        <% end %>
+        <td><%= number_to_currency expense.amount %></td>
+        <td><%= link_to expense.brother.name, expense.brother %></td>
+        <td><%= expense.date %></td>
+        <td><%= expense.notes %></td>
+        <td>
+		      <% if expense.reimbursed %>
+        		<%= link_to "Y", toggle_reimbursed_path(expense), :method => :put, :class => "btn btn-success", :style=>'width: 40px;' %>
+        	<% else %>
+        		<%= link_to "N", toggle_reimbursed_path(expense), :method => :put, :class => "btn btn-danger", :style=>'width: 40px;' %>
+        	<% end %>
+        </td>
+        <td>
+          <% if expense.posted %>
+            <%= link_to "Y", toggle_posted_path(expense), :method => :put, :class => "btn btn-success", :style=>'width: 40px;' %>
+          <% else %>
+            <%= link_to "N", toggle_posted_path(expense), :method => :put, :class => "btn btn-danger", :style=>'width: 40px;' %>
+          <% end %>
+        </td>
+        <td><%= button_to "X", expense, :class => "btn btn-danger", :method => :delete, data: { confirm: 'Are you sure?' }, :style=>'width: 40px;'%></td>
+      </tr>
+    <% end %>
+  </tbody>
+
+</table>
+  <%= will_paginate @current_expenses_paginated, :param_name => 'current_page' %>
+</center>
+<h3>Future Expenses</h3>
+<center>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Committee</th>
+      <th>Amount</th>
+      <th>Purchaser</th>
+      <th>Date</th>
+      <th>Notes</th>
+      <th width="5%">R?</th>
+      <th width="5%">Post</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @future_expenses_paginated.each do |expense| %>
+      <tr>
+        <td><%= link_to expense.item, edit_expense_path(expense)%></td>
+        <% if expense.committee.nil? %>
+          <td>Fixed</td>
+        <% else %>
+          <td><%= link_to expense.committee.name, expense.committee %></td>
+        <% end %>
+        <td><%= number_to_currency expense.amount %></td>
+        <td><%= link_to expense.brother.name, expense.brother %></td>
+        <td><%= expense.date %></td>
+        <td><%= expense.notes %></td>
+        <td>
+          <% if expense.reimbursed %>
+            <%= link_to "Y", toggle_reimbursed_path(expense), :method => :put, :class => "btn btn-success" %>
+          <% else %>
+            <%= link_to "N", toggle_reimbursed_path(expense), :method => :put, :class => "btn btn-danger" %>
+          <% end %>
+        </td>
+        <td>
+          <% if expense.posted %>
+            <%= link_to "Y", toggle_posted_path(expense), :method => :put, :class => "btn btn-success", :style=>'width: 40px;' %>
+          <% else %>
+            <%= link_to "N", toggle_posted_path(expense), :method => :put, :class => "btn btn-danger", :style=>'width: 40px;' %>
+          <% end %>
+        </td>
+        <td><%= button_to "X", expense, :class => "btn btn-danger", :method => :delete, data: { confirm: 'Are you sure?' }, :style=>'width: 40px;'%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= will_paginate @future_expenses_paginated, :param_name => 'future_page' %>
+</center>
+<%= link_to "New Expense", new_expense_path, class: 'btn btn-danger' %>
+<%= link_to "Expenses to Reimburse", not_reimbursed_path, class: 'btn btn-default' %>
+<%= link_to "Unposted Expenses", not_posted_path, class: 'btn btn-default' %>
+<hr>
+<h3>Deposits</h3>
+<center>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Date</th>
+      <th>Amount</th>
+      <th>Notes</th>
+      <th>Posted?</th>
+      <th>Delete</th>`
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @all_deposits_plus_unposted_paginated.each do |deposit| %>
+      <tr>
+        <td><%= link_to deposit.name, edit_deposit_path(deposit)%></td>
+        <td><%= deposit.date %></td>
+        <td><%= number_to_currency deposit.amount %></td>
+        <td><%= deposit.notes %></td>
+        <td>
+          <% if deposit.posted %>
+            <%= link_to "Y", toggle_deposit_posted_path(deposit), :method => :put, :class => "btn btn-success", :style=>'width: 40px;' %>
+          <% else %>
+            <%= link_to "N", toggle_deposit_posted_path(deposit), :method => :put, :class => "btn btn-danger", :style=>'width: 40px;' %>
+          <% end %>
+        </td>
+
+        <td><%= button_to "X", deposit, :class => "btn btn-danger", :method => :delete, data: { confirm: 'Are you sure?' }, :style=>'width: 40px;'%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= will_paginate @all_deposits_plus_unposted_paginated, :param_name => 'deposit_page' %>
+</center>
+<%= link_to "New Deposit", new_deposit_path, class: 'btn btn-success' %>

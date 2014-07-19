@@ -1,0 +1,10 @@
+<br>
+<center>
+<% if get_previous_semester(@semester) != nil%>
+  <%= link_to "<", "?semester=#{get_previous_semester(@semester).name}", :class => "btn btn-default" %>
+<% end %>
+
+<% if get_next_semester(@semester) != nil%>
+  <%= link_to ">", "?semester=#{get_next_semester(@semester).name}", :class => "btn btn-default" %>
+<% end %>
+</center>

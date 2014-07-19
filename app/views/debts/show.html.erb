@@ -1,0 +1,41 @@
+<p>
+  <strong>Name:</strong>
+  <%= @debt.name %>
+</p>
+
+<p>
+  <strong>Brother:</strong>
+  <%= @debt.brother.name %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @debt.amount %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <% if @debt.status %>
+    paid
+  <% else %>
+    unpaid
+  <% end %>
+</p>
+
+<p>
+  <strong>Due:</strong>
+  <%= @debt.due %>
+</p>
+
+<p>
+  <strong>Paid:</strong>
+  <%= @debt.paid %>
+</p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @debt.notes %>
+</p>
+
+<%= button_to "Edit", edit_debt_path(@debt), :class => "btn btn-warning" , :method => :get%>
+<%= button_to "Destroy", @debt, :class => "btn btn-danger", :method => :delete, data: { confirm: 'Are you sure?' }%>

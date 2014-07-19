@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    Hi <%= @brother.first_name %>, 
+    <br>
+    <% if @debts.count > 1 %>
+        My records show that you have the following overdue debts to the house: 
+        <ul>
+        	<% @debts.each do |debt| %>
+        		<li> <%= number_to_currency debt.amount %> for <%= debt.name %>, due <%= time_ago_in_words(debt.due) %> ago</li>
+        	<% end %>
+        	<br>
+        	<b>Total: <%= number_to_currency @total %> </b>
+        </ul>
+    <% else %>
+        My records show that you still owe <%= number_to_currency @debts.first.amount %> for <%= @debts.first.name %>, which was due <%= time_ago_in_words(@debts.first.due) %> ago.
+    <% end %>
+    Make a check to 'Phi Gamma Delta' as soon as possible. If you have any questions, please reply to this email or contact me directly. 
+    <br>
+    <br>
+    Best, 
+    <br>
+    Will
+  </body>
+</html>

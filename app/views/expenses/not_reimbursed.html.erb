@@ -1,0 +1,49 @@
+<h1>Expenses to Reimburse</h1>
+<center> 
+<table class="table">
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Committee</th>
+      <th>Amount</th>
+      <th>Purchaser</th>
+      <th>Date</th>
+      <th>Notes</th>
+      <th width="5%">R?</th>
+      <th width="5%">Post</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @expenses.each do |expense| %>
+      <tr>
+        <td><%= link_to expense.item, edit_expense_path(expense)%></td>
+        <% if expense.committee.nil? %>
+          <td>Fixed</td>
+        <% else %>
+          <td><%= link_to expense.committee.name, expense.committee %></td>
+        <% end %>
+        <td><%= number_to_currency expense.amount %></td>
+        <td><%= link_to expense.brother.name, expense.brother %></td>
+        <td><%= expense.date %></td>
+        <td><%= expense.notes %></td>
+        <td>
+          <% if expense.reimbursed %>
+            <%= link_to "Y", toggle_reimbursed_path(expense), :method => :put, :class => "btn btn-success" %>
+          <% else %>
+            <%= link_to "N", toggle_reimbursed_path(expense), :method => :put, :class => "btn btn-danger" %>
+          <% end %>
+        </td>
+        <td>
+          <% if expense.posted %>
+            <%= link_to "Y", toggle_posted_path(expense), :method => :put, :class => "btn btn-success", :style=>'width: 40px;' %>
+          <% else %>
+            <%= link_to "N", toggle_posted_path(expense), :method => :put, :class => "btn btn-danger", :style=>'width: 40px;' %>
+          <% end %>
+        </td>
+        <td><%= button_to "X", expense, :class => "btn btn-danger", :method => :delete, data: { confirm: 'Are you sure?' }, :style=>'width: 40px;'%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

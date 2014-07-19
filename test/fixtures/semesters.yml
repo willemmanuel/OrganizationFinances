@@ -1,0 +1,24 @@
+# == Schema Information
+#
+# Table name: semesters
+#
+#  id          :integer          not null, primary key
+#  name        :string(255)
+#  semester_id :integer
+#  chapter_id  :integer
+#  created_at  :datetime
+#  updated_at  :datetime
+#  current     :boolean          default(FALSE)
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  previous_id: 
+  chapter_id: 
+
+two:
+  name: MyString
+  previous_id: 
+  chapter_id: 

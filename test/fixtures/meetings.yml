@@ -1,0 +1,25 @@
+# == Schema Information
+#
+# Table name: meetings
+#
+#  id            :integer          not null, primary key
+#  date          :date
+#  attendance_id :integer
+#  minutes       :string(255)
+#  created_at    :datetime
+#  updated_at    :datetime
+#  chapter_id    :integer
+#  semester_id   :integer
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  date: 2014-06-11
+  attendance_id: 1
+  minutes: MyString
+
+two:
+  date: 2014-06-11
+  attendance_id: 1
+  minutes: MyString

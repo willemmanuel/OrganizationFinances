@@ -1,0 +1,122 @@
+  <div class="row">
+    <aside class="col-xs-4">
+    	<%= render 'brother_info' %>
+    </aside>
+    <div class="col-xs-8">
+    	<h3>Debts</h3>
+    	<h4>Overdue Debts</h4>
+    	<table class="table">
+		  <thead>
+		    <tr>
+		      <th>Name</th>
+		      <th>Amount</th>
+		      <th>Due</th>
+		      <th>Notes</th>
+		      <th>Actions</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <% @overdue.each do |debt| %>
+		      <tr>
+		        <td><%= link_to debt.name, debt%></td>
+		        <td><%= number_to_currency debt.amount %></td>
+		        <td>
+		          <%= time_ago_in_words debt.due %> ago
+		        </td>
+		        <td><%= debt.notes %></td>
+		        <td>
+		          <%= link_to "Toggle", toggle_path(debt), :class => "btn btn-default", :method => :put %>
+		          <%= link_to "X", debt, :class => "btn btn-danger", :method => :delete, data: { confirm: 'Are you sure?' }%>
+		        </td>
+		      </tr>
+		    <% end %>
+		  </tbody>
+		</table>
+		<h4>Future Debts</h4>
+		<table class="table">
+		  <thead>
+		    <tr>
+		      <th>Name</th>
+		      <th>Amount</th>
+		      <th>Due</th>
+		      <th>Notes</th>
+		      <th>Actions</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  <% @future.each do |debt| %>
+		      <tr>
+		        <td><%= link_to debt.name, debt%></td>
+		        <td><%= number_to_currency debt.amount %></td>
+		        <td>
+		          in <%= time_ago_in_words debt.due %>
+		        </td>
+		        <td><%= debt.notes %></td>
+		        <td>
+		          <%= link_to "Toggle", toggle_path(debt), :class => "btn btn-default", :method => :put %>
+		          <%= link_to "X", debt, :class => "btn btn-danger", :method => :delete, data: { confirm: 'Are you sure?' }%>
+		        </td>
+		      </tr>
+		    <% end %>
+		  </tbody>
+		</table>
+		<hr>
+		<h3>Payments</h3>
+    	<table class="table">
+		  <thead>
+		    <tr>
+		      <th>Name</th>
+		      <th>Amount</th>
+		      <th>Due</th>
+		      <th>Paid</th>
+		      <th>Notes</th>
+		      <th>Actions</th>
+		    </tr>
+		  </thead>
+
+		  <tbody>
+		    <% @payments.each do |payment| %>
+		      <tr>
+		        <td><%= link_to payment.name, payment%></td>
+		        <td><%= number_to_currency payment.amount %></td>
+		        <td><%= payment.due %></td>
+		        <td><%= payment.paid %></td>
+		        <td><%= payment.notes %></td>
+		        <td>
+		          <%= link_to "Toggle", toggle_path(payment), :class => "btn btn-default", :method => :put %>
+		          <%= link_to "X", payment, :class => "btn btn-danger", :method => :delete, data: { confirm: 'Are you sure?' }%>
+		        </td>
+		      </tr>
+		    <% end %>
+		  </tbody>
+		</table>
+		<hr>
+		    <h3>Meetings</h3>
+		     <div class="col-sm-3">
+    			<h4>Present</h4>
+    				<% @present.each do |a| %>
+    					<%= link_to a.meeting.date.strftime("%B %d, %Y"),  a.meeting%> <%= link_to '&#9658;'.html_safe, toggle_attendance_path(a), :class => "small", :method => :put %><br>
+    				<% end %>
+    			</div>
+    			<div class="col-sm-3">
+    			<h4>Justified</h4>
+    			   	<% @justified.each do |a| %>
+    			   	<%= link_to a.meeting.date.strftime("%B %d, %Y"), a.meeting %> <%= link_to '&#9658;'.html_safe, toggle_attendance_path(a), :class => "small", :method => :put %><br>
+    				<% end %>
+    			</div>
+    			<div class="col-sm-3">
+    			<h4>Excused</h4>
+    			   	<% @excused.each do |a| %>
+    			   	<%= link_to a.meeting.date.strftime("%B %d, %Y"), a.meeting %> <%= link_to '&#9658;'.html_safe, toggle_attendance_path(a), :class => "small", :method => :put %><br>
+    				<% end %>
+    			</div>
+    			<div class="col-sm-3">
+    			<h4>Unexcused</h4>
+    			   	<% @unexcused.each do |a| %>
+    			   	<%= link_to a.meeting.date.strftime("%B %d, %Y"), a.meeting %> <%= link_to '&#9658;'.html_safe, toggle_attendance_path(a), :class => "small", :method => :put %><br>
+    				<% end %>
+    			</div>
+    </div>
+  </div>  
+
+

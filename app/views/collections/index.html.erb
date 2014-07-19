@@ -1,0 +1,19 @@
+<h1>Collections</h1>
+<table class='table'>
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @collections.each do |collection| %>
+      <tr>
+        <td><%= link_to collection.name, collection %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+
+<%= link_to "Add Collection", new_collection_path, :class => "btn btn-success", :method => "get"%>

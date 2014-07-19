@@ -1,0 +1,23 @@
+# == Schema Information
+#
+# Table name: collections
+#
+#  id          :integer          not null, primary key
+#  name        :string(255)
+#  created_at  :datetime
+#  updated_at  :datetime
+#  chapter_id  :integer
+#  semester_id :integer
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  has_many: 
+  has_many: 
+
+two:
+  name: MyString
+  has_many: 
+  has_many: 

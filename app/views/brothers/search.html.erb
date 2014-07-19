@@ -1,0 +1,33 @@
+<h1>Brother Search</h1>
+<% if @search == "" %>
+
+<% else %>
+  <h3><%=@brothers.count%> <%= 'result'.pluralize(@brothers.count) %> for "<%= @search %>"</h3>
+<% end %>
+<table class='table'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Phone</th>
+      <th>Email</th>
+      <th>Year</th>
+      <th>Demerits</th>
+      <th>Overdue</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @brothers.each do |brother| %>
+      <tr>
+        <td><%= link_to brother.name, brother %></td>
+        <td><%= brother.phone %></td>
+        <td><%= brother.email %></td>
+        <td><%= brother.year %></td>
+        <td><%= number_with_precision brother.demerit, precison: 1 %></td>
+        <td><%= number_to_currency brother.debts.where("due <= ?", Date.today).sum(&:amount) %></td>
+        <td><%= link_to "X", brother, :class => "btn btn-danger", :method => :delete, data: { confirm: 'Are you sure?' }%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

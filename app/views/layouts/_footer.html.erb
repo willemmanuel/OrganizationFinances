@@ -1,0 +1,20 @@
+<footer class="footer">
+	<nav>
+		<ul class="pull-left">
+			<% if @semester != nil %>
+			<% if get_previous_semester(@semester) != nil%>
+			  <li><%= link_to "Pervious Semester", "?semester=#{get_previous_semester(@semester).name}", :class => "btn btn-default" %></li>
+			<% end %>
+
+			<% if get_next_semester(@semester) != nil%>
+			  <li><%= link_to "Next Semester", "?semester=#{get_next_semester(@semester).name}", :class => "btn btn-default" %></li>
+			<% end %>
+			<% end %>
+		</ul>
+		<ul>
+			<% if user_signed_in? %>
+				<li><b><%= link_to "Logout", destroy_user_session_path, method: :delete, :class => "btn btn-default"%></b></li>
+			<% end %>
+		</ul>
+	</nav>
+</footer>

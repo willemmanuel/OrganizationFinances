@@ -1,0 +1,44 @@
+<h3>
+  <%= @brother.name %>
+</h3>
+<hr>
+Has <%= @overdue.count %> overdue <%='debt'.pluralize(@overdue.count)  %>
+<% if !@overdue.empty? %>
+	for <%= number_to_currency @overdue_total %>
+<% end %>
+<br>
+Has <%= @future.count %> future <%='debt'.pluralize(@future.count)  %>
+<% if !@future.empty? %>
+	for <%= number_to_currency @future_total %>
+<% end %>
+<br>
+Has made <%= @payments.count.to_s %> <%='payment'.pluralize(@payments.count) %>
+<% if !@payments.empty? %>
+	for <%= number_to_currency @payments_total %> <br>
+<% end %>
+<hr>
+<%= pluralize number_with_precision(@brother.demerit, precision: 2), "demerits" %> <br>
+Been to <%= pluralize @present.count, "meeting" %> <br>
+Justified absent from <%= pluralize @justified.count, "meeting" %> <br>
+Excused from <%= pluralize @excused.count, "meeting" %> <br>
+Unexcused from <%= pluralize @unexcused.count, "meeting" %>
+<hr>
+
+Phone: <%= @brother.phone %> <br>
+Email: <%= mail_to(@brother.email) %> <br>
+Year: <%= @brother.year %>
+<hr>
+<div class="btn-group">
+	<%= link_to "+ Dem", add_demerit_path(@brother), :class => "btn btn-default" , :method => :get, :style=>'width: 80px;'%>
+	<%= link_to "- Dem", remove_demerit_path(@brother), :class => "btn btn-default" , :method => :get, :style=>'width: 80px;'%>
+	<%= link_to "Pay off", pay_off_demerit_path(@brother), :class => "btn btn-default" , :method => :get, :style=>'width: 80px;'%>
+</div>
+<br><br>
+<%= link_to "New Debt", new_debt_path, :class => "btn btn-success" , :method => :get, :style=>'width: 117px;'%>
+<%= link_to "Text Nag", text_nag_path(@brother), :class => "btn btn-warning" , :method => :get, :style=>'width: 117px;'%>
+<br><br>
+<%= link_to "Late Email", overdue_email_nag_path(@brother), :class => "btn btn-warning" , :method => :get, :style=>'width: 117px;'%>
+<%= link_to "Future Email", future_email_nag_path(@brother), :class => "btn btn-warning" , :method => :get, :style=>'width: 117px;'%>
+<br><br>
+<%= link_to "Edit", edit_brother_path(@brother), :class => "btn btn-warning" , :method => :get, :style=>'width: 117px;'%>
+<%= link_to "Delete", @brother, :class => "btn btn-danger", :method => :delete, data: { confirm: 'Are you sure?' }, :style=>'width: 117px;'%>

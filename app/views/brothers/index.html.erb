@@ -1,0 +1,86 @@
+<% if @inactive_list %>
+  <h1>Inactive Brothers</h1>
+  <h3><%=@brothers.count%> inactive/graduated brothers</h3>
+<% else %>
+  <h1>Brothers</h1>
+  <h3><%=@brothers.count%> currently on roster</h3>
+  <h4><%=@pledge.count%> first years, <%=@second.count%> second years, <%=@third.count%> third years and <%=@forth.count%> fourth years</h4>
+<% end %>
+
+<table class='table'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Phone</th>
+      <th>Email</th>
+      <% if !@inactive_list %>
+      <th>Year</th>
+      <% end %>
+      <th>Demerits</th>
+      <th>Overdue</th>
+      <th>Active?</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @brothers.each do |brother| %>
+      <tr>
+        <td><%= link_to brother.name, brother %></td>
+        <td><%= brother.phone %></td>
+        <td><%= brother.email %></td>
+        <% if !@inactive_list %>
+        <td><%= brother.year %></td>
+        <% end %>
+        <td><%= number_with_precision brother.demerit, precison: 1 %></td>
+        <td><%= number_to_currency brother.debts.where(status: false).where("due <= ?", Date.today).sum(&:amount) %></td>
+        <% if brother.active %>
+          <td><%= link_to "Y", toggle_active_path(brother), :class => "btn btn-success" %></td>
+        <% else %>
+          <td><%= link_to "N", toggle_active_path(brother), :class => "btn btn-danger" %></td>
+        <% end %>
+        <td><%= link_to "X", brother, :class => "btn btn-danger", :method => :delete, data: { confirm: 'Are you sure?' }%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<% if !@inactive_list %>
+<h1>Bad standing</h1>
+<h3><%=@bad_standing.count%> currently in bad standing</h3>
+<table class='table'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Phone</th>
+      <th>Email</th>
+      <th>Year</th>
+      <th>Demerits</th>
+      <th>Overdue</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @bad_standing.each do |brother| %>
+      <tr>
+        <td><%= link_to brother.name, brother %></td>
+        <td><%= brother.phone %></td>
+        <td><%= brother.email %></td>
+        <td><%= brother.year %></td>
+        <td><%= number_with_precision brother.demerit, precison: 1 %></td>
+        <td><%= number_to_currency brother.debts.where("due <= ?", Date.today).sum(&:amount) %></td>
+        <td><%= link_to "X", brother, :class => "btn btn-danger", :method => :delete, data: { confirm: 'Are you sure?' }%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+<br>
+<% if @inactive_list %>
+  <%= link_to "Active Brothers", brothers_path, :class => "btn btn-primary", :method => "get"%>
+<% else %>
+  <%= link_to "Inactive Brothers", 'brother/inactive', :class => "btn btn-primary", :method => "get"%>
+<% end %>
+<%= link_to "Add brother", new_brother_path, :class => "btn btn-success", :method => "get"%>
+<%= link_to "Bulk add brothers", bulk_create_path, :class => "btn btn-success", :method => "get"%>

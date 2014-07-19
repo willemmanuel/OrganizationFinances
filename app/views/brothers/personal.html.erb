@@ -1,0 +1,132 @@
+  <div class="row">
+    <aside class="col-xs-4">
+    	<%= render 'personal_brother_info' %>
+    </aside>
+    <div class="col-xs-8">
+    	<h3>Debts</h3>
+    	<% if !@overdue.empty? %>
+    	<h4>Overdue Debts</h4>
+    	<table class="table">
+		  <thead>
+		    <tr>
+		      <th>Name</th>
+		      <th>Amount</th>
+		      <th>Due</th>
+		      <th>Notes</th>
+		      <th>Pay</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <% @overdue.each do |debt| %>
+		      <tr>
+		        <td><%= debt.name %></td>
+		        <td><%= number_to_currency debt.amount %></td>
+		        <td>
+		          <%= time_ago_in_words debt.due %> ago
+		        </td>
+		        <td><%= debt.notes %></td>
+		        <td><%= form_tag create_payment_path(debt) do %>
+  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+          data-name="Omicron Payment"
+          data-description="For <%= debt.brother.name %> - <%= debt.name %>"
+          data-panel-label="Pay {{amount}}"
+          data-amount="<%= debt.stripe_amount.to_i %>"></script>
+<% end %></td>
+		      </tr>
+		    <% end %>
+		  </tbody>
+		</table>
+		<% end %>
+		<% if !@future.empty? %>
+		<h4>Future Debts</h4>
+		<table class="table">
+		  <thead>
+		    <tr>
+		      <th>Name</th>
+		      <th>Amount</th>
+		      <th>Due</th>
+		      <th>Notes</th>
+		      <th>Pay</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  <% @future.each do |debt| %>
+		      <tr>
+		        <td><%= debt.name %></td>
+		        <td><%= number_to_currency debt.amount %></td>
+		        <td>
+		          in <%= time_ago_in_words debt.due %>
+		        </td>
+		        <td><%= debt.notes %></td>
+		        <td><%= form_tag create_payment_path(debt) do %>
+  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+          data-name="Omicron Payment"
+          data-description="For <%= debt.brother.name %> - <%= debt.name %>"
+          data-panel-label="Pay {{amount}}"
+          data-amount="<%= debt.stripe_amount.to_i %>"></script>
+<% end %></td>
+		      </tr>
+		    <% end %>
+		  </tbody>
+		</table>
+		<% end %>
+		<i><b>Note:</b> Paying online requires a 2.9% + 30&#162; charge</i>
+		<% if !@payments.empty? %>
+		<hr>
+		<h3>Payments</h3>
+    	<table class="table">
+		  <thead>
+		    <tr>
+		      <th>Name</th>
+		      <th>Amount</th>
+		      <th>Due</th>
+		      <th>Paid</th>
+		      <th>Notes</th>
+		    </tr>
+		  </thead>
+
+		  <tbody>
+		    <% @payments.each do |payment| %>
+		      <tr>
+		        <td><%= payment.name %></td>
+		        <td><%= number_to_currency payment.amount %></td>
+		        <td><%= payment.due %></td>
+		        <td><%= payment.paid %></td>
+		        <td><%= payment.notes %></td>
+		      </tr>
+		    <% end %>
+		  </tbody>
+		</table>
+		<% end %>
+		<hr>
+		    <h3>Meetings</h3>
+		     <div class="col-sm-3">
+    			<h4>Present</h4>
+    				<% @present.each do |a| %>
+    						<%= a.meeting.date.strftime("%B %d, %Y")%><br>
+    				<% end %>
+    			</div>
+    			<div class="col-sm-3">
+    			<h4>Justified</h4>
+    			   	<% @justified.each do |a| %>
+    			   		<%= a.meeting.date.strftime("%B %d, %Y")%><br>
+    				<% end %>
+    			</div>
+    			<div class="col-sm-3">
+    			<h4>Excused</h4>
+    			   	<% @excused.each do |a| %>
+    			   		<%= a.meeting.date.strftime("%B %d, %Y")%><br>
+    				<% end %>
+    			</div>
+    			<div class="col-sm-3">
+    			<h4>Unexcused</h4>
+    			   	<% @unexcused.each do |a| %>
+    			   	<%= a.meeting.date.strftime("%B %d, %Y")%><br>
+    				<% end %>
+    			</div>
+    </div>
+  </div>  
+
+

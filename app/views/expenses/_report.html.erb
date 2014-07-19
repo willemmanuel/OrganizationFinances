@@ -1,0 +1,85 @@
+<h1>Account Overview - <%= @semester.name %></h1>
+<div id="reportContainer">
+  <div class="row" id="report">
+    <!-- left report column -->
+    <div class="col-sm-6">
+      <div class="item black large">
+        <div class="item-left">past rollover</div>
+        <div class="item-right"><%= number_to_currency @past_rollover %></div>
+      </div>
+      <div class="item red large">
+        <div class="item-left">current expenses</div>
+        <div class="item-right"><%= number_to_currency @current_expenses.sum(&:amount) %></div>
+      </div>
+      <div class="item red small">
+        <div class="item-left">not yet posted</div>
+        <div class="item-right"><%= number_to_currency @not_yet_posted %></div>
+      </div>
+      <div class="item red small">
+        <div class="item-left">posted</div>
+        <div class="item-right"><%= number_to_currency @current_expenses.sum(&:amount) - @not_yet_posted %></div>
+      </div>
+      <div class="item green large">
+        <div class="item-left">posted deposits</div>
+        <div class="item-right"><%= number_to_currency @deposits.sum(&:amount) %></div>
+      </div>
+      <div class="item green small">
+        <div class="item-left">debt deposits</div>
+        <div class="item-right"><%= number_to_currency @debt_deposit_amount %></div>
+      </div>
+      <div class="item green small">
+        <div class="item-left">donations</div>
+        <div class="item-right"><%= number_to_currency @donation_deposit_amount %></div>
+      </div>
+      <div class="item orange large">
+        <div class="item-left">pending deposits</div>
+        <div class="item-right"><%= number_to_currency @pending_deposits %></div>
+      </div>
+      <div class="item orange large">
+        <div class="item-left">collected, undeposited</div>
+        <div class="item-right"><%= number_to_currency @not_yet_deposited %></div>
+      </div>
+      <div class="item large">
+        <div class="item-left">account balance</div>
+        <div class="item-right"><%= number_to_currency @deposits.sum(&:amount) - @current_expenses.sum(&:amount) + @pending_deposits + @past_rollover %></div>
+      </div>
+      <div class="item large">
+        <div class="item-left">actual balance</div>
+        <div class="item-right"><%= number_to_currency @deposits.sum(&:amount) - @current_expenses.sum(&:amount) + @past_rollover %></div>
+      </div>
+    </div>
+    <!-- right report column -->
+    <div class="col-sm-6">
+      <div class="item large red">
+        <div class="item-left">future expenses</div>
+        <div class="item-right"><%= number_to_currency @future_expenses.sum(&:amount) %></div>
+      </div>
+      <div class="item large green">
+        <div class="item-left">future deposits</div>
+        <div class="item-right"><%= number_to_currency @potential_revenue - @debt_deposit_amount %></div>
+      </div>
+      <div class="item large">
+        <div class="item-left">potential balance</div>
+        <div class="item-right"><%= number_to_currency @potential_revenue - @expenses.sum(&:amount) + @donation_deposit_amount + + @past_rollover %></div>
+      </div>
+      <br><br>
+      <div class="item large red">
+        <div class="item-left">appropriated</div>
+        <div class="item-right"><%= number_to_currency @not_spent %></div>
+        <div class="item-left small">(not yet spent)</div>
+      </div>
+      <div class="item large green">
+        <div class="item-left">rollover</div>
+        <div class="item-right"><%= number_to_currency @potential_revenue - @expenses.sum(&:amount) -  @not_spent + @donation_deposit_amount + + @past_rollover%></div>
+        <div class="item-left small"> (assuming all spent)</div>
+      </div>
+
+    </div>
+  </div>
+  <br>
+  <div class="progress" stype="min-height: 15px;">
+  <div class="progress-bar progress-bar-success" style="width: <%= @payment_percent %>%;">$<%= @payments_total %> collected (<%= @payments.count %> <%= 'payment'.pluralize(@payments.count)%>)</div>
+  <div class="progress-bar progress-bar-warning" style="width: <%= @future_percent %>%;">$<%= @future_total %> owed (<%= @future.count %> <%= 'debt'.pluralize(@future.count)%>)</div>
+  <div class="progress-bar progress-bar-danger" style="width: <%= @overdue_percent %>%;">$<%= @overdue_total %> overdue (<%= @overdue.count %> <%= 'debt'.pluralize(@overdue.count)%>)</div>
+</div>
+</div>

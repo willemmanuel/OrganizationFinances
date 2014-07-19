@@ -1,0 +1,37 @@
+<p>
+  <strong>Name:</strong>
+  <%= @expense.item %>
+</p>
+<p>
+  <strong>Committee:</strong>
+  <%= @expense.committee.name %>
+</p>
+<p>
+  <strong>Amount:</strong>
+  <%= number_to_currency @expense.amount %>
+</p>
+<p>
+  <strong>Brother:</strong>
+  <%= @expense.brother.name %>
+</p>
+<p>
+  <strong>Reimbursed:</strong>
+  <% if @expense.reimbursed %>
+    yes
+  <% else %>
+    no
+  <% end %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @expense.date %>
+</p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @expense.notes %>
+</p>
+
+<%= button_to "Edit", edit_expense_path(@expense), :class => "btn btn-warning" , :method => :get%>
+<%= button_to "Destroy", @expense, :class => "btn btn-danger", :method => :delete, data: { confirm: 'Are you sure?' }%>

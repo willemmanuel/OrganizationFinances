@@ -1,0 +1,62 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+<%= form_for(@debt) do |f| %>
+  <% if @debt.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@debt.errors.count, "error") %> prohibited this debt from being saved:</h2>
+
+      <ul>
+      <% @debt.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if @debt.semester != nil && @debt.semester != current_user.chapter.get_current_semester %>
+    <small><i><b>Note:</b> This debt is not in the current semester. It is in <b><%= @debt.semester.name %></b>.
+      To create a debt in the current semester, <%= link_to "click here", new_debt_path %>.</i></small>
+    <br><br>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field" id="chosen-field">
+    <%= f.label :brother_id %><br><small><i>Leave blank to create a brotherhood-wide debt.</i></small><br>
+    <%= f.select(:brother_id, options_for_select(@brothers.map{ |b| [b.name, b.id] }), { include_blank: true }, {:multiple => true, :class => 'chosen-select'}) %>
+  </div>
+  <br>
+  <div class="field">
+    <%= f.label :amount %><br>
+    <%= f.number_field :amount, :step => 'any' %>
+  </div>
+  <div class="field">
+    <%= f.label :due %><br>
+    <%= f.date_field :due %>
+  </div>
+  <div class="field">
+   <label>Paid?</label><br>
+    <%= f.check_box :status %>
+  </div>
+  <br>
+  <div class="field">
+   <label>Collection</label><br>
+   <% if @debt.collection_id.nil? %>
+    <%= f.select :collection_id, options_for_select(@collections.map{ |c| [c.name, c.id] }), include_blank: "(No collection)"%>
+   <% else %>
+    <%= f.select :collection_id, options_for_select(@collections.map{ |c| [c.name, c.id] },selected: @debt.collection_id), include_blank: "(No collection)"%>
+   <% end %>
+  </div>
+  <div class="field">
+    <%= f.label :notes %><br>
+    <%= f.text_area :notes %>
+  </div>
+  <div class="actions">
+    <%= f.submit class: "btn btn-success" %>
+  </div>
+<% end %>
+</div>
+</div>

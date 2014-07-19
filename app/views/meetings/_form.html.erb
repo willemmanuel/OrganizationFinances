@@ -1,0 +1,31 @@
+
+<%= form_for @meeting do |m| %>
+  <%= m.fields_for :attendances, @meeting.attendances.sort_by{|a| a.brother.last_name} do |att| %>
+  	<h5><%= att.object.brother.name %></h5>
+  		<%= att.hidden_field :id %>
+  		<%= att.hidden_field :brother_id %>
+  		<%= att.hidden_field :meeting_id %>
+  	<label class="radio-inline">
+		<%= att.radio_button :status, 'present', :checked => true %> 
+		<%= att.label :status, 'present', :value => "present" %>
+	</label>
+  <label class="radio-inline">
+    <%= att.radio_button :status, 'justified' %>
+    <%= att.label :status, 'justified', :value => "justified" %>
+  </label>
+  <label class="radio-inline">
+    <%= att.radio_button :status, 'excused' %>
+    <%= att.label :status, 'excused', :value => "excused" %>
+  </label>
+	<label class="radio-inline">
+		<%= att.radio_button :status, 'unexcused' %>
+		<%= att.label :status, 'unexcused', :value => "unexcused" %>
+	</label>
+	<hr>
+  <% end %>
+      <h5>Date to record</h5> <%= m.date_field :date %>
+      <hr>
+   <div class="actions">
+    <%= m.submit 'Record', :class => 'btn btn-success' %>
+  </div>
+<% end %>

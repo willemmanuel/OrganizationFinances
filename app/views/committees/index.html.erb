@@ -1,0 +1,60 @@
+
+<h1>Committees - <%= @semester.name %></h1>
+<div class="row">
+  <div class="col-xs-3">
+    <font color="red">
+    <h3><%= number_to_currency @spent %></h3>
+    <h5>currently spent</h5>
+    <h3><%= number_to_percentage @spent.to_f / @committees.sum(&:budget) *100 %></h3>
+    <h5>spent</h5>
+  </font>
+  </div>
+  <div class="col-xs-6">
+    <center>
+    <%= high_chart("myid", @chart) %>
+</center>
+</div>
+  <div class="col-xs-3">
+    <font color="green">
+    <h3><%= number_to_currency @committees.sum(&:budget) %></h3>
+    <h5>currently allocated</h5>
+    <h3><%= number_to_percentage (1-(@spent.to_f / @committees.sum(&:budget))) *100 %></h3>
+    <h5>left</h5>
+  </font>
+  </div>
+</div>
+<center>
+
+<br><br>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Spent</th>
+      <th>Budget</th>
+      <th>%</th>
+      <th>Chair</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @committees.each do |committee| %>
+      <tr>
+        <td><%= link_to committee.name, committee %>
+          <% if committee.budget < committee.expenses.sum(:amount) %>
+            <font color="red"> (overbudget) </font>
+          <% end %>
+        </td>
+        <td><%= number_to_currency(committee.expenses.sum(:amount)) %></td>
+        <td><%= number_to_currency(committee.budget) %></td>
+        <td><%= number_to_percentage(100*committee.expenses.sum(:amount)/
+         committee.budget) %></td>
+        <td><%= link_to committee.brother.name, committee.brother %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+</center>
+<%= link_to 'New Committee', new_committee_path, class: 'btn btn-success' %>

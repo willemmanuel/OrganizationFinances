@@ -1,0 +1,30 @@
+# == Schema Information
+#
+# Table name: deposits
+#
+#  id          :integer          not null, primary key
+#  date        :date
+#  amount      :decimal(, )
+#  name        :string(255)
+#  notes       :string(255)
+#  created_at  :datetime
+#  updated_at  :datetime
+#  chapter_id  :integer
+#  donation    :boolean
+#  posted      :boolean
+#  semester_id :integer
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  date: 2014-05-15
+  amount: 9.99
+  name: MyString
+  notes: MyString
+
+two:
+  date: 2014-05-15
+  amount: 9.99
+  name: MyString
+  notes: MyString

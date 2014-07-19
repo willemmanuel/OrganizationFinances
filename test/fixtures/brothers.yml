@@ -1,0 +1,29 @@
+# == Schema Information
+#
+# Table name: brothers
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  phone      :string(255)
+#  email      :string(255)
+#  year       :integer
+#  created_at :datetime
+#  updated_at :datetime
+#  demerit    :decimal(, )
+#  chapter_id :integer
+#  active     :boolean
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  phone: MyString
+  email: MyString
+  year: 1
+
+two:
+  name: MyString
+  phone: MyString
+  email: MyString
+  year: 1

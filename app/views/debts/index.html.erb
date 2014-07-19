@@ -1,0 +1,109 @@
+<h1>Debts - <%= @semester.name %></h1>
+<div class="progress" stype="min-height: 15px;">
+  <div class="progress-bar progress-bar-success" style="width: <%= @payment_percent %>%;">$<%= @payments_total %> collected (<%= @payments.count %> <%= 'payment'.pluralize(@payments.count)%>)</div>
+  <div class="progress-bar progress-bar-warning" style="width: <%= @future_percent %>%;">$<%= @future_total %> owed (<%= @future.count %> <%= 'debt'.pluralize(@future.count)%>)</div>
+  <div class="progress-bar progress-bar-danger" style="width: <%= @overdue_percent %>%;">$<%= @overdue_total %> overdue (<%= @overdue.count %> <%= 'debt'.pluralize(@overdue.count)%>)</div>
+</div>
+<h4>Overdue Debts</h4>
+<table class="table">
+  <thead>
+    <tr>
+      <th width="10%">Name</th>
+      <th width="20%">Brother</th>
+      <th width="10%">Amount</th>
+      <th width="10%">Due</th>
+      <th width="25%">Notes</th>
+      <th width="25%">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @overdue.each do |debt| %>
+      <tr>
+        <td><%= link_to debt.name, debt%></td>
+        <td><%= link_to debt.brother.name, debt.brother%></td>
+        <td><%= number_to_currency debt.amount %></td>
+        <td>
+          <%= time_ago_in_words debt.due %> ago
+        </td>
+        <td><%= debt.notes %></td>
+        <td>
+          <%= link_to "Toggle", toggle_path(debt), :class => "btn btn-default", :method => :put %>
+          <%= link_to "X", debt, :class => "btn btn-danger", :method => :delete, data: { confirm: 'Are you sure?' }%>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<center><%= will_paginate @overdue, :param_name => 'overdue_page' %></center>
+<h4>Future Debts</h4>
+<table class="table">
+  <thead>
+    <tr>
+      <th width="10%">Name</th>
+      <th width="20%">Brother</th>
+      <th width="10%">Amount</th>
+      <th width="10%">Due</th>
+      <th width="25%">Notes</th>
+      <th width="25%">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @future.each do |debt| %>
+      <tr>
+        <td><%= link_to debt.name, debt%></td>
+        <td><%= link_to debt.brother.name, debt.brother%></td>
+        <td><%= number_to_currency debt.amount %></td>
+        <td>
+          in <%= time_ago_in_words debt.due %>
+        </td>
+        <td><%= debt.notes %></td>
+        <td>
+          <%= link_to "Toggle", toggle_path(debt), :class => "btn btn-default", :method => :put %>
+          <%= link_to "X", debt, :class => "btn btn-danger", :method => :delete, data: { confirm: 'Are you sure?' }%>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<center><%= will_paginate @future, :param_name => 'future_page' %></center>
+<hr>
+<h3>Payments</h3>
+  <table class="table">
+  <thead>
+    <tr>
+      <th width="10%">Name</th>
+      <th width="20%">Brother</th>
+      <th width="10%">Amount</th>
+      <th width="10%">Due</th>
+      <th width="10%">Paid</th>
+      <th width="20%">Notes</th>
+      <th width="20%">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @payments.each do |payment| %>
+      <tr>
+        <td><%= link_to payment.name, payment%></td>
+        <td><%= link_to payment.brother.name, payment.brother%></td>
+        <td><%= number_to_currency payment.amount %></td>
+        <td><%= payment.due %></td>
+        <td><%= payment.paid %></td>
+        <td><%= payment.notes %></td>
+        <td>
+          <%= link_to "Toggle", toggle_path(payment), :class => "btn btn-default", :method => :put %>
+          <%= link_to "X", payment, :class => "btn btn-danger", :method => :delete, data: { confirm: 'Are you sure?' }%>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<center><%= will_paginate @payments, :param_name => 'payment_page' %>
+  </center>
+
+
+<%= link_to "Add debts", new_debt_path, :class => "btn btn-success", :method => "get", :style=>'width: 100px;'%>
+<br><br>
+<%= link_to "Past email all", overdue_email_nag_all_path, :class => "btn btn-warning", :method => "get"%>
+<%= link_to "Future email all", future_email_nag_all_path, :class => "btn btn-warning", :method => "get"%>
+<%= link_to "Text nag all", text_nag_all_path, :class => "btn btn-warning", :method => "get", :style=>'width: 100px;'%>

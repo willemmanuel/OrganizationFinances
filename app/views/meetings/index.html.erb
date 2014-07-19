@@ -1,0 +1,32 @@
+
+<h1>Meetings - <%= @semester.name %></h1>
+<h3><%=@meetings.count%> past <%='meeting'.pluralize(@meetings.count)  %> of <%= current_user.chapter.brothers.where(active: true).all.count %> brothers</h3>
+<table class='table'>
+  <thead>
+    <tr>
+      <th>Meeting date</th>
+      <th>Present</th>
+      <th>%</th>
+      <th>Quorum?</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @meetings.each do |meeting| %>
+      <tr>
+        <td><%= link_to meeting.date.strftime("%B %d, %Y"), meeting %></td>
+        <td><%= meeting.attendances.where(status: "present").count %></td>
+        <td><%= number_to_percentage meeting.attendances.where(status: "present").count.to_f / current_user.chapter.brothers.where(active: true).all.count*100, precision: 1  %>
+        </td>
+        <% if meeting.quorum? %>
+        	<td> Yes </td>
+        <% else %>
+        	<td> No </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+
+<%= link_to "Add Meeting", new_meeting_path, :class => "btn btn-success", :method => "get"%>

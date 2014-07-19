@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+<%= form_for(@brother) do |f| %>
+  <% if @brother.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@brother.errors.count, "error") %> prohibited this brother from being saved:</h2>
+
+      <ul>
+      <% @brother.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :phone %><br>
+    <%= f.text_field :phone %>
+  </div>
+  <div class="field">
+    <%= f.label :email %><br>
+    <%= f.text_field :email %>
+  </div>
+  <div class="field">
+    <%= f.label :year %><br>
+    <%= f.number_field :year %>
+  </div>
+  <div class="actions">
+    <%= f.submit class: "btn btn-success"%>
+  </div>
+<% end %>
+</div>
+</div>

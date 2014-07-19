@@ -1,0 +1,25 @@
+# == Schema Information
+#
+# Table name: committees
+#
+#  id          :integer          not null, primary key
+#  name        :string(255)
+#  budget      :decimal(, )
+#  brother_id  :integer
+#  created_at  :datetime
+#  updated_at  :datetime
+#  chapter_id  :integer
+#  semester_id :integer
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  budget: 9.99
+  chair: MyString
+
+two:
+  name: MyString
+  budget: 9.99
+  chair: MyString

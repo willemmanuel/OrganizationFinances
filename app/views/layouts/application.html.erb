@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% if current_user.present? %>
+      <title><%= current_user.chapter.chapter %></title>
+    <% else %>
+      <title>Organizational Finances</title>
+    <% end %>
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <%= stylesheet_link_tag    "application", media: "all" %>
+    <%= javascript_include_tag "application" %>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<%= render 'layouts/header' %>
+    <div class="container" style="padding-top: 50px; ">
+      <% flash.each do |k, v| %>
+        <% if k="notice" %>
+          <div class = "alert alert-info"><%= v %></div>
+        <% else %>
+          <div class = "alert alert-<%=k%>"><%= v %></div>
+        <% end %>
+      <%end%>
+      <%= yield %>
+      <%= render'layouts/footer' %>
+    </div>
+  </body>
+</html>

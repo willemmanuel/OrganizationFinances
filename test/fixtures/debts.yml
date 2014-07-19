@@ -1,0 +1,38 @@
+# == Schema Information
+#
+# Table name: debts
+#
+#  id            :integer          not null, primary key
+#  name          :string(255)
+#  brother_id    :integer
+#  amount        :decimal(, )
+#  status        :boolean
+#  due           :date
+#  paid          :date
+#  notes         :text
+#  created_at    :datetime
+#  updated_at    :datetime
+#  chapter_id    :integer
+#  collection_id :integer
+#  semester_id   :integer
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  brother_id: 1
+  amount: 1
+  status: MyString
+  issued: 2014-05-12
+  paid: 2014-05-12
+  notes: MyText
+
+two:
+  name: MyString
+  brother_id: 1
+  amount: 1
+  status: MyString
+  issued: 2014-05-12
+  paid: 2014-05-12
+  notes: MyText

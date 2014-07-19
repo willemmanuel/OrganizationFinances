@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    Hi <%= @brother.first_name %>, 
+    <br>
+    <% if @debts.count > 1 %>
+        This is a reminder--my records show that you owe the following to the house: 
+        <ul>
+        	<% @debts.each do |debt| %>
+        		<li> <%= number_to_currency debt.amount %> for <%= debt.name %>, due in <%= time_ago_in_words(debt.due) %></li>
+        	<% end %>
+        	<br>
+        	<b>Total: <%= number_to_currency @total %> </b>
+        </ul>
+    <% else %>
+        Just a reminder--my records show that you owe <%= number_to_currency @debts.first.amount %> for <%= @debts.first.name %>, due in <%= time_ago_in_words(@debts.first.due) %> .
+    <% end %>
+    Make a check to 'Phi Gamma Delta' as soon as possible. If you have any questions, please reply to this email or contact me directly. 
+    <br>
+    <br>
+    Best, 
+    <br>
+    Will
+  </body>
+</html>

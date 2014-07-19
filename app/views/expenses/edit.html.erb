@@ -1,0 +1,58 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+<h1>Edit Expense</h1>
+<%= form_for(@expense) do |f| %>
+  <% if @expense.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@expense.errors.count, "error") %> prohibited this debt from being saved:</h2>
+
+      <ul>
+      <% @expense.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :item %><br>
+    <%= f.text_field :item %>
+  </div>
+  <div class="field">
+    <%= f.label :brother_id %><br>
+    <%= f.select :brother_id, options_for_select(@brothers.map{ |b| [b.name, b.id] }, :selected => @expense.brother_id) %>
+  </div>
+  <div class="field">
+    <%= f.label :committee_id %><br>
+    <%= f.select :committee_id, options_for_select(@committees.map{ |c| [c.name, c.id] }, :selected => @expense.committee_id), :include_blank => true %>
+  </div>
+  <div class="field">
+    <%= f.label :date %><br>
+    <%= f.date_field :date %>
+  </div>
+  <div class="field">
+    <%= f.label :amount %><br>
+    <%= f.number_field :amount, :step => 'any' %>
+  </div>
+  <div class="field">
+   <label>Reimbursed?</label><br>
+    <%= f.check_box :reimbursed %>
+  </div>
+  <div class="field"><br>
+   <label>Posted to account?</label><br>
+    <%= f.check_box :posted %>
+  </div>
+  <div class="field">
+  <label>Collection</label><br>
+    <%= f.select :collection_id, options_for_select(@collections.map{ |c| [c.name, c.id] },selected: @expense.collection_id), include_blank: "(No collection)"%>
+  </div>
+  <div class="field">
+    <%= f.label :notes %><br>
+    <%= f.text_area :notes %>
+  </div>
+  <div class="actions">
+    <%= f.submit class: "btn btn-success" %>
+  </div>
+<% end %>
+</div>
+</div>

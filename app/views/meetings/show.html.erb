@@ -1,0 +1,15 @@
+<center>
+<body>
+<h1><%= @meeting.date.strftime("%B %d, %Y") %> Chapter Meeting</h1>
+<%= link_to "Edit", edit_meeting_path(@meeting), :class => 'btn btn-warning', :method => :get, :style=>'width: 85px;'%>
+<%= link_to "Destroy", @meeting, :class => 'btn btn-danger', :method => :delete, :style=>'width: 85px;', :confirm => 'Are you sure?'%>
+<h3>Attendance</h3>	
+<h4><%= @present_count %>/<%= @brothers_count %>, <%= number_to_percentage @present_count.to_f / @brothers_count *100, precision: 1 %></h4>	
+</center>
+<div class="columns" style="-webkit-column-count: 3;-moz-column-count: 3; column-count: 3;">
+<% @meeting.attendances.sort_by{|a| a.brother.last_name}.each.each do |a| %>
+	<b><%= link_to a.brother.name, a.brother %></b>: <%= a.status %>
+	<%= link_to '&#9658;'.html_safe, toggle_attendance_path(a), :class => "small", :method => :put %>
+	<br>
+<% end %>
+</div>

@@ -1,0 +1,15 @@
+<h3>
+  <%= @committee.name %>
+</h3>
+<hr>
+<b>Chair:</b> <%= link_to @committee.brother.name, @committee.brother %><br>
+<b>Budget:</b> <%= number_to_currency(@committee.budget) %><br>
+<b>Spent:</b> <%= number_to_currency(@committee.expenses.sum(:amount)) %><br>
+<b>Left:</b> <%= number_to_currency(@committee.budget - @committee.expenses.sum(:amount)) %><br>
+<b>Percent Spent:</b> <%= number_to_percentage(100*@committee.expenses.sum(:amount)/
+         @committee.budget) %><br>
+<hr>
+<%= link_to "New Expense", new_expense_path, :class => "btn btn-success" , :method => :get%>
+<br><br>
+<%= link_to "Edit", edit_committee_path(@committee), :class => "btn btn-warning" , :method => :get, :style=>'width: 85px;'%>
+<%= link_to "Delete", @committee, :class => "btn btn-danger", :method => :delete, data: { confirm: 'Are you sure?' }, :style=>'width: 85px;'%>

@@ -1,0 +1,126 @@
+<h3><%= @collection.name %> <small>(<%= number_to_currency @collection.debts.sum(&:amount) %> collection with <%= number_to_currency @collection.expenses.sum(&:amount) %> in expenses)</small></h3>
+<div class="progress" stype="min-height: 15px;">
+  	<% collected_percent =  @collection.debts.where(status: true).sum(&:amount).to_f / @collection.debts.sum(&:amount).to_f * 100 %>
+  	<% out_percent =  @collection.debts.where(status: false).sum(&:amount).to_f / @collection.debts.sum(&:amount).to_f * 100 %>
+    <div class="progress-bar progress-bar-success" style="width: <%= collected_percent %>%;"> $<%= @collection.debts.where(status: true).sum(&:amount) %> collected (<%= @collection.debts.where(status: true).count %> payments) </div>
+    <div class="progress-bar progress-bar-danger" style="width: <%= out_percent %>%;"> $<%= @collection.debts.where(status: false).sum(&:amount) %> uncollected (<%= @collection.debts.where(status: false).count %> debts)</div>
+  </div>
+  <div class='row'>
+<div class='col-md-6'>
+	<h3>Collected</h3>
+	<table class="table">
+  <thead>
+    <tr>
+      <th width="10%">Name</th>
+      <th width="20%">Brother</th>
+      <th width="10%">Amount</th>
+      <th width="10%">Due</th>
+      <th width="25%">Notes</th>
+      <th width="25%">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @collection.debts.where(status: true).each do |debt| %>
+      <tr>
+        <td><%= link_to debt.name, debt%></td>
+        <td><%= link_to debt.brother.name, debt.brother%></td>
+        <td><%= number_to_currency debt.amount %></td>
+        <td>
+          <%= time_ago_in_words debt.due %> ago
+        </td>
+        <td><%= debt.notes %></td>
+        <td>
+          <%= link_to "Toggle", toggle_path(debt), :class => "btn btn-default", :method => :put %>
+          <%= link_to "X", debt, :class => "btn btn-danger", :method => :delete, data: { confirm: 'Are you sure?' }%>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+<div class='col-md-6'>
+	<h3>Not yet collected</h3>
+	<table class="table">
+  <thead>
+    <tr>
+      <th width="10%">Name</th>
+      <th width="20%">Brother</th>
+      <th width="10%">Amount</th>
+      <th width="10%">Due</th>
+      <th width="25%">Notes</th>
+      <th width="25%">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @collection.debts.where(status: false).each do |debt| %>
+      <tr>
+        <td><%= link_to debt.name, debt%></td>
+        <td><%= link_to debt.brother.name, debt.brother%></td>
+        <td><%= number_to_currency debt.amount %></td>
+        <td>
+          <%= time_ago_in_words debt.due %> ago
+        </td>
+        <td><%= debt.notes %></td>
+        <td>
+          <%= link_to "Toggle", toggle_path(debt), :class => "btn btn-default", :method => :put %>
+          <%= link_to "X", debt, :class => "btn btn-danger", :method => :delete, data: { confirm: 'Are you sure?' }%>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+<div class='col-md-12'>
+	<h3>Associated expenses</h3>
+	<table class="table">
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Committee</th>
+      <th>Amount</th>
+      <th>Purchaser</th>
+      <th>Date</th>
+      <th>Notes</th>
+      <th width="5%">R?</th>
+      <th width="5%">Post</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @collection.expenses.each do |expense| %>
+      <tr>
+        <td><%= link_to expense.item, edit_expense_path(expense)%></td>
+
+        <% if expense.committee.nil? %>
+          <td>Fixed</td>
+        <% else %>
+          <td><%= link_to expense.committee.name, expense.committee %></td>
+        <% end %>
+        <td><%= number_to_currency expense.amount %></td>
+        <td><%= link_to expense.brother.name, expense.brother %></td>
+        <td><%= expense.date %></td>
+        <td><%= expense.notes %></td>
+        <td>
+		      <% if expense.reimbursed %>
+        		<%= link_to "Y", toggle_reimbursed_path(expense), :method => :put, :class => "btn btn-success", :style=>'width: 40px;' %>
+        	<% else %>
+        		<%= link_to "N", toggle_reimbursed_path(expense), :method => :put, :class => "btn btn-danger", :style=>'width: 40px;' %>
+        	<% end %>
+        </td>
+        <td>
+          <% if expense.posted %>
+            <%= link_to "Y", toggle_posted_path(expense), :method => :put, :class => "btn btn-success", :style=>'width: 40px;' %>
+          <% else %>
+            <%= link_to "N", toggle_posted_path(expense), :method => :put, :class => "btn btn-danger", :style=>'width: 40px;' %>
+          <% end %>
+        </td>
+        <td><%= button_to "X", expense, :class => "btn btn-danger", :method => :delete, data: { confirm: 'Are you sure?' }, :style=>'width: 40px;'%></td>
+      </tr>
+    <% end %>
+  </tbody>
+
+</table>
+	</div>
+
+</div>
