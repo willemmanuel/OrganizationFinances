@@ -1,5 +1,5 @@
 == OrganizationFinances
 
-![screenshot](https://raw.githubusercontent.com/willemmanuel/OrganizationFinances/master/screenshot.png)
+https://raw.githubusercontent.com/willemmanuel/OrganizationFinances/master/screenshot.png
 
 Heroku app for tracking organization finances
