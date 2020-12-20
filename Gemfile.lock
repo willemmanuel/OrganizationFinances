@@ -38,9 +38,12 @@ GEM
       activerecord (>= 2.3.0)
       rake (>= 0.8.7)
     arel (4.0.2)
+    autoprefixer-rails (9.7.6)
+      execjs
     bcrypt (3.1.7)
-    bootstrap-sass (3.2.0.0)
-      sass (~> 3.2)
+    bootstrap-sass (3.4.1)
+      autoprefixer-rails (>= 5.2.1)
+      sassc (>= 2.0.0)
     bootstrap-will_paginate (0.0.6)
       will_paginate
     builder (3.1.4)
@@ -72,6 +75,7 @@ GEM
       warden (~> 1.2.3)
     erubis (2.7.0)
     execjs (2.0.2)
+    ffi (1.12.2)
     fssm (0.2.10)
     hash-deep-merge (0.1.1)
     hike (1.2.3)
@@ -135,6 +139,8 @@ GEM
       sass (~> 3.2.0)
       sprockets (~> 2.8, <= 2.11.0)
       sprockets-rails (~> 2.0)
+    sassc (2.3.0)
+      ffi (~> 1.9)
     sdoc (0.4.0)
       json (~> 1.8)
       rdoc (~> 4.0, < 5.0)
@@ -174,7 +180,7 @@ PLATFORMS
 
 DEPENDENCIES
   annotate
-  bootstrap-sass (~> 3.2.0.0)
+  bootstrap-sass (~> 3.4.1)
   bootstrap-will_paginate
   chosen-rails
   coffee-rails (~> 4.0.0)
